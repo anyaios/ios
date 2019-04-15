@@ -15,6 +15,21 @@
 
  For all the others, it should print `unsupported`
  */
+typedef enum mychoices{
+    numbers,
+    nulls,
+    arrays,
+    strings,
+    unsupported
+} Arrays;
+
+@interface NSArray (MyArray)
+- (NSString *)printed;
++ (int) myChoices:(id) myobject;
++ (NSString*)myStringArray:(id)obj;
+@end
+
+
 @interface NSArray (RSSchool_Extension_Name)
 - (NSString *)print;
 @end

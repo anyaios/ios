@@ -34,5 +34,21 @@
  09/04/2019 04:00
  09/04/2019 00:00
 */
-@interface DateMachine : UIViewController
+@interface DateMachine : UIViewController <UITextFieldDelegate>
+
+
+-(UIButton*)addButtonOne:(NSString*)text;
+-(UIButton*)addButtonTwo;
+-(UILabel*)addLabel:(NSString*)date;
+-(UITextField*)startDateField;
+-(UITextField*)stepDateField;
+-(UITextField*)unitDateField;
+
+
+-(void)addClick:(UIButton *)click;
+-(void)subClick:(UIButton *)click;
+-(BOOL)checkFields;
+-(void)changeDate;
+
+
 @end
