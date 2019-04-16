@@ -22,17 +22,18 @@ typedef enum unitsCalendar{
     // have fun
     self.view.backgroundColor = UIColor.grayColor;
     
-    [self addButtonOne: @"Add"];
+    [self addButtonOne];
     [self addButtonTwo];
-    [self addLabel: @"dd/MM/yyyy HH:mm"];
+    //[self addLabel];
     
-    
+    UILabel *label = [self addLabel];
 //    [self startDateField];
 //    [self stepDateField];
 //    [self unitDateField];
     UITextField *stepField = [self stepDateField];
     UITextField *startField = [self startDateField];
     UITextField *unitField = [self unitDateField];
+    
 
     [self.view addSubview:stepField];
     [self.view addSubview:startField];
@@ -41,13 +42,14 @@ typedef enum unitsCalendar{
     startField.tag = 11;
     stepField.tag = 22;
     unitField.tag = 33;
+    label.tag = 44;
     
 }
 
--(UIButton*)addButtonOne:(NSString*)text {
+-(UIButton*)addButtonOne{
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(270, 400, 100, 50)];
-    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitle:@"Add" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     button.backgroundColor = [UIColor whiteColor];
@@ -81,12 +83,12 @@ typedef enum unitsCalendar{
 }
 
 
--(UILabel*)addLabel:(NSString*)date {
+-(UILabel*)addLabel{
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 350, 200, 50)];
     label.textAlignment = NSTextAlignmentCenter;
     NSDateFormatter *toFormat = [[NSDateFormatter new] autorelease];
-    toFormat.dateFormat = date;
+    toFormat.dateFormat = @"dd/MM/yyyy HH:mm";
     label.text = [toFormat stringFromDate: [NSDate date]];
     [self.view addSubview: label];
     
@@ -148,6 +150,64 @@ typedef enum unitsCalendar{
 
 -(void)changeDate {
     
+}
+- (IBAction)buttonTapped:(id)sender {
+    
+    UILabel *labelAfter = [self.view viewWithTag: 44];
+    UITextField *stepF = [self.view viewWithTag:22];
+    int step = [stepF.text intValue];
+    
+//    if (sender == self.addButtonOne) {
+//        
+//    }
+//    else if (sender == self.addButtonTwo) {
+//        //button 2 was tapped
+//    }
+    NSDateFormatter *dateFormatter = [[NSDateFormatter new] autorelease];
+    dateFormatter.dateFormat = @"dd/MM/yyyy HH:mm";
+    NSDate *current = [dateFormatter dateFromString: labelAfter.text];
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier: NSCalendarIdentifierGregorian];
+    for (int i = 0; i < 6; i += 1) {
+        switch (i) {
+            case year: {
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitYear value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+                break;
+            case month:{
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitMonth value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+                break;
+            case week:{
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitWeekOfYear value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+             
+                break;
+            case day:{
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitDay value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+              
+                break;
+            case hour:{
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitHour value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+                break;
+            case minute:{
+                NSDate *dateAfter = [calendar dateByAddingUnit: NSCalendarUnitMinute value: step toDate: current options: 0];
+                labelAfter.text = [dateFormatter stringFromDate: dateAfter];
+            }
+           
+                break;
+            default:
+                return;
+        }
+        
+    }
+
 }
 
 -(void)addClick:(UIButton *)click {

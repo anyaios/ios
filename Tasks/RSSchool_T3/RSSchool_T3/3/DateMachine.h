@@ -37,9 +37,9 @@
 @interface DateMachine : UIViewController <UITextFieldDelegate>
 
 
--(UIButton*)addButtonOne:(NSString*)text;
+-(UIButton*)addButtonOne;
 -(UIButton*)addButtonTwo;
--(UILabel*)addLabel:(NSString*)date;
+-(UILabel*)addLabel;
 -(UITextField*)startDateField;
 -(UITextField*)stepDateField;
 -(UITextField*)unitDateField;
@@ -49,6 +49,8 @@
 -(void)subClick:(UIButton *)click;
 -(BOOL)checkFields;
 -(void)changeDate;
+
+- (IBAction)buttonTapped:(id)sender;
 
 
 @end
