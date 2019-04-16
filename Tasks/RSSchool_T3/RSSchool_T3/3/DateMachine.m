@@ -5,7 +5,13 @@ typedef enum unitsCalendar{
     week = 2,
     day = 3,
     hour = 4,
-    minute = 5
+    minute = 5,
+    
+    start = 6,
+    step = 7,
+    unit = 8
+    
+    
 } Calendars;
 
 
@@ -19,9 +25,22 @@ typedef enum unitsCalendar{
     [self addButtonOne: @"Add"];
     [self addButtonTwo];
     [self addLabel: @"dd/MM/yyyy HH:mm"];
-    [self startDateField];
-    [self stepDateField];
-    [self unitDateField];
+    
+    
+//    [self startDateField];
+//    [self stepDateField];
+//    [self unitDateField];
+    UITextField *stepField = [self stepDateField];
+    UITextField *startField = [self startDateField];
+    UITextField *unitField = [self unitDateField];
+
+    [self.view addSubview:stepField];
+    [self.view addSubview:startField];
+    [self.view addSubview:unitField];
+    
+    startField.tag = 11;
+    stepField.tag = 22;
+    unitField.tag = 33;
     
 }
 
@@ -86,7 +105,7 @@ typedef enum unitsCalendar{
     startDate.backgroundColor = [UIColor whiteColor];
     startDate.leftViewMode = UITextFieldViewModeAlways;
     startDate.delegate = self;
-    [self.view addSubview: startDate];
+    //[self.view addSubview: startDate];
     
     [startDate release];
     return startDate;
@@ -104,7 +123,7 @@ typedef enum unitsCalendar{
     stepDate.backgroundColor = [UIColor whiteColor];
     stepDate.leftViewMode = UITextFieldViewModeAlways;
     stepDate.delegate = self;
-    [self.view addSubview: stepDate];
+    //[self.view addSubview: stepDate];
     
     [stepDate release];
     return stepDate;
@@ -121,13 +140,14 @@ typedef enum unitsCalendar{
     unit.backgroundColor = [UIColor whiteColor];
     unit.leftViewMode = UITextFieldViewModeAlways;
     unit.delegate = self;
-    [self.view addSubview: unit];
+    //[self.view addSubview: unit];
     
     [unit release];
     return unit;
 }
 
 -(void)changeDate {
+    
 }
 
 -(void)addClick:(UIButton *)click {
@@ -148,9 +168,71 @@ typedef enum unitsCalendar{
     }
     return YES;
 }
-//-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-//
-//}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    //"Step" text field should allow only numbers
+    if (textField.tag == 22) {
+        
+        if([string length] == 0) {
+            return YES;
+        }
+        
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if ([myCharSet characterIsMember:c]) {
+                return YES;
+            }
+        }
+    }
+    
+    
+    //"Date unit" should only allow these values: year, month, week, day, hour, minute
+    if (textField.tag == 33) {
+        UITextField *unitF = [self.view viewWithTag:33];
+        NSString *lowercaseStr = [unitF.text lowercaseString];
+        for (int i = 0; i < 6; i += 1) {
+            switch (i) {
+                case year:
+                    if ([lowercaseStr isEqualToString: @"year"]){
+                        return YES;
+                    };
+                    break;
+                case month:
+                    if ([lowercaseStr isEqualToString: @"month"]){
+                        return YES;
+                    }
+                    break;
+                case week:
+                    if ([lowercaseStr isEqualToString: @"week"]){
+                        return YES;
+                    };
+                    break;
+                case day:
+                    if ([lowercaseStr isEqualToString: @"day"]){
+                        return YES;
+                    };
+                    break;
+                case hour:
+                    if ([lowercaseStr isEqualToString: @"hour"]){
+                        return YES;
+                    };
+                    break;
+                case minute:
+                    if ([lowercaseStr isEqualToString: @"minute"]){
+                        return YES;
+                    };
+                    break;
+                default:
+                    return NO;
+            }
+        }
+    }
+    
+    
+    return NO;
+}
 
 
 
