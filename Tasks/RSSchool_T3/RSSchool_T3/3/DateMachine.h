@@ -45,10 +45,10 @@
 -(UITextField*)unitDateField;
 
 
--(void)addClick:(UIButton *)click;
--(void)subClick:(UIButton *)click;
+//-(void)addClick:(UIButton *)click;
+//-(void)subClick:(UIButton *)click;
 -(BOOL)checkFields;
--(void)changeDate;
+//-(void)changeDate;
 
 - (IBAction)buttonTapped:(id)sender;
 
